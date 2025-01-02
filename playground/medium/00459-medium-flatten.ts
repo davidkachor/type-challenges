@@ -18,7 +18,11 @@
 
 /* _____________ Your Code Here _____________ */
 
-type Flatten = any
+type Flatten<T extends readonly unknown[]> = T extends [infer Item, ...infer Rest]
+  ? Item extends unknown[]
+    ? Flatten<[...Item, ...Rest]>
+    : [Item, ...Flatten<Rest>]
+  : []
 
 /* _____________ Test Cases _____________ */
 import type { Equal, Expect } from '@type-challenges/utils'
